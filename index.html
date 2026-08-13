@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Muestra datos</title>
+
+  <script src="dompurify/purify.min.js"></script>
+  <script type="module" src="libclienteweb/manejaErrores.js"></script>
+</head>
+
+<body>
+
+  <h1>Muestra y Valida datos</h1>
+
+  <form id="formularioDatos">
+
+    <p>
+      <label>
+        Nombre
+        <input 
+          name="nombre" 
+          type="text" 
+          required 
+          minlength="3" 
+          pattern="^[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+$" 
+          title="El nombre es obligatorio, debe tener al menos 3 caracteres y contener solo letras.">
+      </label>
+    </p>
+
+    <p>
+      <label>
+        Apellido
+        <input 
+          name="apellido" 
+          type="text" 
+          required 
+          minlength="3" 
+          pattern="^[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+$" 
+          title="El apellido es obligatorio, debe tener al menos 3 caracteres y contener solo letras.">
+      </label>
+    </p>
+
+    <p>
+      <label>
+        Género
+        <select name="genero" required title="Por favor, selecciona un género musical.">
+          <option value="">Sin selección</option>
+          <option value="pop">Pop</option>
+          <option value="reg">Reguetón</option>
+          <option value="sal">Salsa</option>
+          <option value="roc">Rock</option>
+        </select>
+      </label>
+    </p>
+
+    <p>
+      <label>
+        Géneración
+        <select name="generacion" required title="Por favor, selecciona tu generación.">
+          <option value="">Sin selección</option>
+          <option value="boom">Baby Boom</option>
+          <option value="X">X</option>
+          <option value="Y">Millennials</option>
+          <option value="Z">Z</option>
+          <option value="alfa">Alfa</option>
+        </select>
+      </label>
+    </p>
+
+    <p>
+      <label>
+        Edad
+        <input name="edad" type="number" min="1" max="120" required title="La edad debe ser un número entre 1 y 120.">
+      </label>
+    </p>
+
+    <p>
+      <label>
+        Número de la suerte
+        <input id="numero" type="number" required title="Introduce tu número de la suerte.">
+      </label>
+    </p>
+
+    <p>
+      <label>
+        Avance
+        <progress id="avance" max="100" value="0"></progress>
+      </label>
+    </p>
+
+    <p>
+      <label>
+        Capacidad
+        <meter id="capacidad" min="50" max="80" value="50"></meter>
+      </label>
+    </p>
+
+    <p>
+      <label>
+        Temperatura
+        <input id="temperatura" type="range" min="0" max="50">
+      </label>
+    </p>
+
+    <p>
+      <label>
+        <input id="aprobado" type="checkbox">
+        Aprobado
+      </label>
+    </p>
+
+    <p>
+      <label>
+        Animal Favorito
+        <input id="Humor" type="text" required title="Por favor, escribe tu animal favorito.">
+      </label>
+    </p>
+
+    <p>
+      <label>
+        En relacion?
+        <select name="en_relacion" required title="Selecciona si estás en una relación o no.">
+          <option value="">Sin selección</option>
+          <option value="true">Si</option>
+          <option value="false">No</option>
+        </select>
+      </label>
+    </p>
+
+    <p>
+      <label>Dirección</label>
+      <input id="direccion" type="text" required title="La dirección no puede quedar vacía.">
+    </p>
+
+    <p>
+      <label>
+        Encabezado
+        <span id="encabezado"></span>
+      </label>
+    </p>
+
+    <p>
+      <label>
+        Nacimiento
+        <input id="nacimiento" type="date" required title="Selecciona una fecha de nacimiento válida.">
+      </label>
+    </p>
+
+    <figure>
+      <img id="imagen1" alt="Imagen 1">
+      <figcaption>Imagen 1</figcaption>
+    </figure>
+
+    <fieldset id="fsPasatiempos">
+      <legend>Pasatiempos</legend>
+      <label>
+        <input type="checkbox" name="pasatiempos[]" value="fut">Futbol
+      </label>
+      <label>
+        <input type="checkbox" name="pasatiempos[]" value="chess">Ajedrez
+      </label>
+      <label>
+        <input type="checkbox" name="pasatiempos[]" value="basket">Basketbol
+      </label>
+      <label>
+        <input type="checkbox" name="pasatiempos[]" value="caminar">Caminar
+      </label>
+      <label>
+        <input type="checkbox" name="pasatiempos[]" value="musica">Escuchar musica
+      </label>
+    </fieldset>
+
+    <fieldset id="fsMadrugador">
+      <legend>Madrugador</legend>
+      <label><input type="radio" name="madrugador" value="si">Si</label>
+      <label><input type="radio" name="madrugador" value="no">No</label>
+    </fieldset>
+
+    <p>
+      <label>
+        Cuantos Animales tiene?
+        <select name="animales[]" multiple size="3" required title="Selecciona al menos un animal de la lista.">
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+        </select>
+      </label>
+    </p>
+
+    <p>
+      <button type="button" id="btnConfirmar">Confirmar Datos</button>
+    </p>
+
+  </form>
+
+</body>
+
+<script type="module">
+
+  import { consume } from "./libclienteweb/consume.js"
+  import { recibeJson } from "./libclienteweb/recibeJson.js"
+  import { muestraObjeto } from "./libclienteweb/muestraObjeto.js"
+
+  descargaDatos()
+
+  async function descargaDatos() {
+    try {
+      const respuesta = await consume(recibeJson("api/datos.php"))
+      const json = await respuesta.json()
+      muestraObjeto(document, json)
+    } catch (error) {
+      console.error("Nota: No se pudieron descargar datos iniciales (API externa).", error)
+    }
+  }
+
+  document.getElementById("btnConfirmar").addEventListener("click", () => {
+    const form = document.getElementById("formularioDatos");
+
+    // 1. VALIDACIÓN AUTOMÁTICA DE ATRIBUTOS HTML5 (Inputs, Selects, etc.)
+    if (!form.checkValidity()) {
+      // Buscamos cuál es el primer elemento inválido para avisar al alumno
+      const primerInvalido = form.querySelector(":invalid");
+      const mensajeError = primerInvalido.getAttribute("title") || "Por favor, ingresa los datos solicitados correctamente.";
+      
+      alert(`⚠️ Error en los datos:\n${mensajeError}`);
+      primerInvalido.focus(); 
+      return; 
+    const pasatiemposSeleccionados = document.querySelectorAll('[name="pasatiempos[]"]:checked');
+    if (pasatiemposSeleccionados.length === 0) {
+      alert("⚠️ Error en los datos:\nDebes seleccionar al menos un pasatiempo.");
+      document.querySelector('[name="pasatiempos[]"]').focus();
+      return;
+    }
+
+    const madrugadorSeleccionado = document.querySelector('[name="madrugador"]:checked');
+    if (!madrugadorSeleccionado) {
+      alert("⚠️ Error en los datos:\nDebes responder si eres madrugador o no.");
+      document.querySelector('[name="madrugador"]').focus();
+      return;
+    }
+
+
+    const nombre = document.querySelector('[name="nombre"]').value;
+    const apellido = document.querySelector('[name="apellido"]').value;
+    const genero = document.querySelector('[name="genero"]').value;
+    const generacion = document.querySelector('[name="generacion"]').value;
+    const edad = document.querySelector('[name="edad"]').value;
+    const numero = document.getElementById("numero").value;
+    const aprobado = document.getElementById("aprobado").checked ? "Sí" : "No";
+    const direccion = document.getElementById("direccion").value; 
+    const nacimiento = document.getElementById("nacimiento").value;
+
+    const pasatiempos = Array.from(pasatiemposSeleccionados)
+      .map(input => input.parentNode.textContent.trim())
+      .join(", ");
+    const madrugador = madrugadorSeleccionado.parentNode.textContent.trim();
+
+    const selectAnimales = document.querySelector('[name="animales[]"]');
+    const animales = Array.from(selectAnimales.selectedOptions).map(option => option.text).join(", ");
+
+    const mensaje = `--- Datos Actuales del Usuario ---
+Nombre: ${nombre}
+Apellido: ${apellido}
+Género: ${genero}
+Generación: ${generacion}
+Edad: ${edad}
+Número de la suerte: ${numero}
+Aprobado: ${aprobado}
+Dirección: ${direccion}
+Nacimiento: ${nacimiento}
+Pasatiempos: ${pasatiempos}
+Madrugador: ${madrugador}
+Animales seleccionados: ${animales}`;
+
+    alert(mensaje);
+  });
+
+</script>
+
+</html>

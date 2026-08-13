@@ -1,9 +1,26 @@
-# Mostrar_Validar_datos.github.io
-Muestra y Validación de Datos
-Elaboro un sistema completo de transferencia y validación de 
-datos que conecta el servidor con el cliente web. Por un lado, diseño scripts en 
-PHP estructurados para manejar errores, empaquetar información en formato 
-JSON o enviar detalles de problemas bajo estándares web (RFC 7807). Por otro 
-lado, integro una interfaz HTML con un formulario robusto, el cual utiliza tanto 
-las validaciones nativas de HTML5 como validaciones personalizadas mediante 
-JavaScript para asegurar la integridad de la información antes de procesarla.
+# Sistema de Muestra y Validación de Datos
+
+Sistema completo de transferencia y validación de datos que conecta el servidor con el cliente web.
+
+---
+
+## Características Principales
+
+* **Backend (PHP):**
+  * Scripts estructurados para el manejo eficiente de errores.
+  * Empaquetado de información en formato **JSON**.
+  * Respuestas bajo estándares web (**RFC 7807** - *Problem Details*).
+
+* **Frontend (HTML5 & JavaScript):**
+  * Interfaz HTML con formulario robusto.
+  * Validaciones nativas de **HTML5**.
+  * Validaciones personalizadas mediante **JavaScript** para garantizar la integridad de la información antes del procesamiento.
+
+---
+
+##Tecnologías Utilizadas
+
+* **PHP**
+* **JavaScript**
+* **HTML5 / CSS3**
+* **JSON**
